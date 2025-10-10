@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  createExense,
+  createExpense ,
   getAllExpenses,
   getExpenseById,
   updateExpense,
@@ -8,28 +8,31 @@ import {
   getExpenses,
   getMonthlyExpense
 } from "../Controller/expenseController.js";
+import { protect } from "../middlewares/authMiddleware.js";
+
+
 
 const router = express.Router();
 
 // Create a new expense
-router.post("/createExpense", createExense);
+router.post("/createExpense", protect,  createExpense);
 
 // Get all expenses (basic, no filters)
-router.get("/getAllExpense", getAllExpenses);
+router.get("/getAllExpense", protect, getAllExpenses);
 
 // Get expenses with filtering (today, this week, this month, date range)
-router.get("/getExpenseByFilter", getExpenses);
+router.get("/getExpenseByFilter" ,  getExpenses);
 
 // Get expense by ID
-router.get("/getExpenseById/:id", getExpenseById);
+router.get("/getExpenseById/:id",  protect, getExpenseById);
 
 // Update expense by ID
-router.put("/updateExpense/:id", updateExpense);
+router.put("/updateExpense/:id",   protect, updateExpense);
 
 // Delete expense by ID
-router.delete("/deleteExpense/:id", deleteExpense);
+router.delete("/deleteExpense/:id", protect, deleteExpense);
 
-router.get("/get-monthlywise-expence",   getMonthlyExpense);
+router.get("/get-monthlywise-expence", protect,  getMonthlyExpense);
 
 
 export default router;
