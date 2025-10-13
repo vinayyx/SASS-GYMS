@@ -3,10 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 function AddMember() {
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [loadingOtp, setLoadingOtp] = useState(false);
+  const token = localStorage.getItem("adminToken"); // get token from localStorage
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -46,10 +43,15 @@ function AddMember() {
   const fatchPlanTypes = async () => {
     try {
       const data = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/plan/plansDropdown`
+        `${import.meta.env.VITE_BACKEND_URL}/api/plan/plansDropdown`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+          },
+        }
       );
 
-      setplanTypes(data.data);
+      setplanTypes(data.data.data);
 
       console.log(data.data);
     } catch (error) {
@@ -81,7 +83,12 @@ function AddMember() {
           type
         )}&duration=${encodeURIComponent(duration)}${
           startDate ? `&startDate=${startDate}` : ""
-        }`
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+          },
+        }
       );
 
       if (response.data.success) {
@@ -107,89 +114,7 @@ function AddMember() {
     }
   };
 
-  const sendOtp = async () => {
-    if (!formData.email) return alert("Enter email first");
-    setLoadingOtp(true);
-    try {
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/member/send-otp`,
-        {
-          email: formData.email,
-          fullName: formData.fullName,
-        }
-      );
-      setOtpSent(true);
-      toast.success("OTP sent!");
-    } catch (err) {
-      console.error(err);
-      toast.error(err);
-    }
-    setLoadingOtp(false);
-  };
-
-  const verifyOtp = async () => {
-    if (otp.length !== 6) return alert("Enter 6-digit OTP");
-    setLoadingOtp(true);
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/member/verify-otp`,
-        { email: formData.email, otp }
-      );
-      if (res.data.success) {
-        setOtpVerified(true);
-        toast.success("Email verified!");
-      } else toast.error("Invalid OTP");
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to verify OTP");
-    }
-    setLoadingOtp(false);
-  };
-
-  const handlePayment = async () => {
-    if (!otpVerified) return alert("Please verify email first");
-    if (!planData.price) return alert("Please select a plan first");
-
-    if (formData.paymentMethod === "Cash") {
-      await handleSubmit(null);
-      return;
-    }
-
-    try {
-      const orderRes = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/payment/order`,
-        { amount: planData.price * 100 }
-      );
-
-      const { id: order_id, currency, amount } = orderRes.data;
-
-      const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-        amount,
-        currency,
-        name: "Gym Membership",
-        description: "Plan Payment",
-        order_id,
-        handler: async function (response) {
-          await handleSubmit(response);
-        },
-        prefill: {
-          name: formData.fullName,
-          email: formData.email,
-          contact: formData.contactNumber,
-        },
-        theme: { color: "#2563EB" },
-      };
-
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-    } catch (err) {
-      console.error(err);
-      toast.error("Payment failed to initialize");
-    }
-  };
-
-  const handleSubmit = async (paymentResponse) => {
+  const handleSubmit = async () => {
     try {
       const data = new FormData();
 
@@ -206,19 +131,6 @@ function AddMember() {
 
       data.append("method", formData.paymentMethod);
       data.append("transactionId", formData.transactionId || "NA");
-      data.append(
-        "razorpayOrderId",
-        paymentResponse?.razorpay_order_id || "Cash"
-      );
-      data.append(
-        "razorpayPaymentId",
-        paymentResponse?.razorpay_payment_id || "Cash"
-      );
-      data.append(
-        "razorpaySignature",
-        paymentResponse?.razorpay_signature || "Cash"
-      );
-
       if (formData.livePhoto) {
         data.append("livePhoto", formData.livePhoto);
       }
@@ -226,7 +138,12 @@ function AddMember() {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/member/create-member`,
         data,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data", // this is enough
+          },
+        }
       );
 
       if (res.data.success) toast.success("Member created!");
@@ -252,7 +169,7 @@ function AddMember() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            handlePayment();
+            handleSubmit();
           }}
           className="w-full   p-6 sm:p-8 rounded-xl shadow-md grid grid-cols-1 sm:grid-cols-2 gap-6"
         >
@@ -562,63 +479,8 @@ function AddMember() {
               className="p-3 rounded border border-gray-300 focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select Method</option>
-              <option value="UPI">UPI</option>
               <option value="Cash">Cash</option>
             </select>
-          </div>
-
-          {/* Email + OTP */}
-          <div className="flex flex-col gap-2 sm:col-span-2">
-            <label className="text-sm font-semibold text-gray-700">
-              Email (OTP Verify)
-            </label>
-            <div className="flex w-full gap-2">
-              <input
-                type="email"
-                name="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                disabled={otpVerified}
-                className="py-3 px-1 flex-1 rounded border border-gray-300 focus:ring-2 focus:ring-blue-500"
-              />
-              {!otpSent && !otpVerified && (
-                <button
-                  type="button"
-                  onClick={sendOtp}
-                  disabled={loadingOtp}
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                >
-                  {loadingOtp ? "Sending..." : "Send OTP"}
-                </button>
-              )}
-            </div>
-
-            {otpSent && !otpVerified && (
-              <div className="flex w-full gap-2 mt-2">
-                <input
-                  type="text"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  placeholder="Enter 6-digit OTP"
-                  className="py-3 px-2 flex-1 rounded border border-gray-300 focus:ring-2 focus:ring-blue-500"
-                />
-                <button
-                  type="button"
-                  onClick={verifyOtp}
-                  disabled={loadingOtp}
-                  className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-                >
-                  {loadingOtp ? "Verifying..." : "Verify"}
-                </button>
-              </div>
-            )}
-
-            {otpVerified && (
-              <span className="text-green-600 mt-1 text-sm">
-                Email verified ✅
-              </span>
-            )}
           </div>
 
           {/* Submit Button */}

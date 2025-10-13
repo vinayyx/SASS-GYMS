@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Tag, DollarSign, List, FileText, Plus } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { useDashboardContext } from "../Context/Context";
 
 const AddPlan = () => {
@@ -12,8 +12,9 @@ const AddPlan = () => {
   const [type, setType] = useState("");
   const [keyPoints, setKeyPoints] = useState([""]);
   const [loading, setLoading] = useState(false);
-  const Navigate = useNavigate()
-  const {refreshPlan} = useDashboardContext()
+  const Navigate = useNavigate();
+  const { refreshPlan } = useDashboardContext();
+  const token = localStorage.getItem("adminToken"); // get token from localStorage
 
   const handleKeyPointChange = (index, value) => {
     const updated = [...keyPoints];
@@ -44,7 +45,6 @@ const AddPlan = () => {
     try {
       setLoading(true);
 
-    
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/plan/create`,
         {
@@ -52,6 +52,11 @@ const AddPlan = () => {
           duration,
           type,
           keyPoints,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -61,10 +66,10 @@ const AddPlan = () => {
         setType("");
         setDuration("1 Month");
         setKeyPoints([""]);
-        refreshPlan()
-        Navigate("/plan")
+        refreshPlan();
+        Navigate("/plan");
       } else {
-         console.log(res)
+        console.log(res);
       }
     } catch (err) {
       console.error(err);

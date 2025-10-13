@@ -2,17 +2,15 @@
 import React, { useEffect, useState } from "react";
 import { useDashboardContext } from "../Context/Context";
 import { Calendar, DollarSign, Tag, List, Pencil, Trash2 } from "lucide-react";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 const ViewAllPlan = () => {
-  const { getAllPlan , refreshPlan} = useDashboardContext();
+  const { getAllPlan, refreshPlan } = useDashboardContext();
+  const token = localStorage.getItem("adminToken"); // get token from localStorage
 
-  const Navigate = useNavigate()
-
- 
-
+  const Navigate = useNavigate();
 
   const handleEdit = (id) => {
     console.log("Edit plan:", id);
@@ -20,22 +18,23 @@ const ViewAllPlan = () => {
   };
 
   const handleDelete = async (id) => {
+    try {
+      const data = await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/plan/delete-plan-by-id/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-        try {
-      
-      const data = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/plan/delete-plan-by-id/${id}`)
-
-      if(data){
-        toast.success("blog is successfully delted")
-        refreshPlan()
-
+      if (data) {
+        toast.success("blog is successfully delted");
+        refreshPlan();
       }
     } catch (error) {
-
-      console.log(error)
-      
+      console.log(error);
     }
-   
   };
 
   return (

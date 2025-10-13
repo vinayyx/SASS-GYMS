@@ -19,11 +19,7 @@ function Member() {
   const { TotalMember, OnboaringOnLast7Days, Attendance, AttendanceRushData } =
     useDashboardContext();
 
-  console.log("Attendance:", Attendance);
-
-  // Dummy count values
-  const activeMembers = 95;
-  const inactiveMembers = 25;
+ 
 
   // 🔹 Cards ke liye data
   const cards = [

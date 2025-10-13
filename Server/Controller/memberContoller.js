@@ -246,7 +246,7 @@ export const createMember = async (req, res) => {
     };
 
     // CASE: Cash payment → save request, wait for admin approval
-    if (method === "Cash") {
+   /* if (method === "Cash") {
       const newCashRequest = new CashRequest({
         email,
         ...rest,
@@ -262,8 +262,8 @@ export const createMember = async (req, res) => {
         message:
           "Cash payment request submitted. Admin will approve before activation.",
         data: newCashRequest,
-      });
-    }
+      }); 
+    } */
 
     // CASE: Online payment → create member directly
     // Generate Member ID

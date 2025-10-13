@@ -1,8 +1,13 @@
 import { Home, Users, BarChart, CreditCard, FileText, Calendar, Sandwich } from 'lucide-react';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 function Sidebar({ sidebar, setSidebar }) {
+    const navigate = useNavigate();
+
   const navitems = [
     { name: 'Dashboard', path: '/', Icon: Home },
     { name: 'Member', path: '/member', Icon: Users },
@@ -13,6 +18,18 @@ function Sidebar({ sidebar, setSidebar }) {
     { name: 'Canteen', path: '/canteen', Icon: Sandwich },
 
   ];
+
+    const handleLogout = async () => {
+    try {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/gym/logout`, {
+        withCredentials: true,
+      });
+      localStorage.removeItem("adminToken"); // agar token store ho
+      navigate("/login"); // redirect to login page
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
 
   return (
     <div
@@ -61,7 +78,7 @@ function Sidebar({ sidebar, setSidebar }) {
         </NavLink>
 
         <NavLink 
-          to="/logout"
+           onClick={()=>handleLogout()}
           className='flex items-center gap-2 text-zinc-900 hover:bg-zinc-100 p-2 rounded-md w-11/12 justify-center'
         >
           <CreditCard className='h-5 w-5' />

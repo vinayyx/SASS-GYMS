@@ -4,7 +4,10 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useDashboardContext } from "../Context/Context";
 
+
 const ViewDetailsMember = () => {
+    const token = localStorage.getItem("adminToken"); // get token from localStorage
+
   const [loading, setLoading] = useState(true);
   const [showAllPlans, setShowAllPlans] = useState(false);
   const [isEditing, setIsEditing] = useState(false);

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function AddExpense() {
   const { expense, setExpense, refreshTotalExpense } = useDashboardContext();
+  const token = localStorage.getItem("adminToken"); // get token from localStorage
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -27,6 +28,7 @@ function AddExpense() {
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
