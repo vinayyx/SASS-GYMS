@@ -16,6 +16,8 @@ import {useNavigate} from "react-router-dom"
 function Plan() {
   const [planSales, setPlanSales] = useState([]);
   const { TotalPlan, TotalRecentPlan, TotalPlanForGraph } = useDashboardContext();
+
+  console.log(TotalPlanForGraph)
   const Navigate = useNavigate()
 
   // Transform data from backend -> chart readable format

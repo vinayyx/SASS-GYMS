@@ -7,18 +7,27 @@ import { useNavigate } from "react-router-dom";
 function ViewAllExpenses() {
   const { GetAllExpance, refreshTotalExpense } = useDashboardContext();
   const [SelectedExpance, setSelectedExpance] = useState();
+  const token = localStorage.getItem("adminToken");
+
 
   const Navigate = useNavigate();
 
+  console.log(GetAllExpance)
+
   const handleEdit = (exp) => {
-    setSelectedExpance(exp._id); // optional if you just want ID
+    setSelectedExpance(exp._id); 
     Navigate("/editexpence", { state: { expense: exp } });
   };
 
   const handleDelete = async (id) => {
     try {
       const { data } = await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/expense/deleteExpense/${id}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/expense/deleteExpense/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       refreshTotalExpense();

@@ -32,13 +32,15 @@ import CancelledOrders from "./OtherPages/CancelledOrders";
 import TotalOrders from "./OtherPages/TotalOrders";
 import AdminLogin from "./Pages/AdminLogin";
 import ProtectedRoute from "./OtherPages/ProtectedRoute";
+import Home from "./Pages/Home";
 
 function App() {
   return (
     <div>
       <Routes>
+        <Route path="/home" element={<Home />} />
         <Route path="/login" element={<AdminLogin />} />
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={ <ProtectedRoute> <Layout /> </ProtectedRoute> }>
           <Route index element={<Dashboard />} />
           <Route path="member" element={<Member />} />
           <Route path="sales" element={<Sales />} />

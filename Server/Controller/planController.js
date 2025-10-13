@@ -477,52 +477,14 @@ export const getTopSellingPlanMonthly = async (req, res) => {
       });
     }
 
-    const { filter } = req.query; // "week", "month", "3month", "6month", "1year", "3year"
-
-    const now = new Date();
-    let startDate;
-
-    switch (filter) {
-      case "week":
-        startDate = new Date(now);
-        startDate.setDate(now.getDate() - 7);
-        break;
-      case "month":
-        startDate = new Date(now);
-        startDate.setMonth(now.getMonth() - 1);
-        break;
-      case "3month":
-        startDate = new Date(now);
-        startDate.setMonth(now.getMonth() - 3);
-        break;
-      case "6month":
-        startDate = new Date(now);
-        startDate.setMonth(now.getMonth() - 6);
-        break;
-      case "1year":
-        startDate = new Date(now);
-        startDate.setFullYear(now.getFullYear() - 1);
-        break;
-      case "3year":
-        startDate = new Date(now);
-        startDate.setFullYear(now.getFullYear() - 3);
-        break;
-      default:
-        startDate = new Date(now);
-        startDate.setFullYear(now.getFullYear() - 1); // default 1 year
-        break;
-    }
-
     const plans = await Member.aggregate([
       { $match: { gymId: new mongoose.Types.ObjectId(gymId) } }, // filter by gym
       { $unwind: "$plan" },
-      { $match: { "plan.startedDate": { $gte: startDate } } }, // filter by date
       {
         $group: {
           _id: {
             planId: "$plan.Plan",
-            month: { $month: "$plan.startedDate" },
-            year: { $year: "$plan.startedDate" },
+            month: { $month: "$plan.startedDate" }, // Month number 1-12
           },
           subscribers: { $sum: 1 },
         },
@@ -539,38 +501,36 @@ export const getTopSellingPlanMonthly = async (req, res) => {
       {
         $project: {
           month: "$_id.month",
-          year: "$_id.year",
           planName: {
             $concat: ["$planDetails.type", " - ", "$planDetails.duration"],
           },
           subscribers: 1,
         },
       },
-      { $sort: { year: 1, month: 1 } },
     ]);
 
+    // All months from Jan → Dec
     const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
     ];
 
-    // Create base structure
-    const monthlyData = {};
+    // Initialize months array with empty plans
+    const monthlyData = monthNames.map((m) => ({ month: m }));
+
+    // Fill actual subscriber data
     plans.forEach((p) => {
-      const monthLabel = `${monthNames[p.month - 1]}-${p.year}`;
-      if (!monthlyData[monthLabel]) monthlyData[monthLabel] = {};
-      monthlyData[monthLabel][p.planName] =
-        (monthlyData[monthLabel][p.planName] || 0) + p.subscribers;
+      const monthIndex = p.month - 1; // 0-based index
+      const monthRow = monthlyData[monthIndex];
+      monthRow[p.planName] = (monthRow[p.planName] || 0) + p.subscribers;
+    });
+
+    // Ensure months with no plan data still have plan keys as 0 if needed
+    const allPlanNames = [...new Set(plans.map((p) => p.planName))];
+    monthlyData.forEach((month) => {
+      allPlanNames.forEach((plan) => {
+        if (!month[plan]) month[plan] = 0;
+      });
     });
 
     res.status(200).json({ success: true, data: monthlyData });
@@ -579,6 +539,10 @@ export const getTopSellingPlanMonthly = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
+
+
+
 
 
 export const planDropdown = async (req, res) => {

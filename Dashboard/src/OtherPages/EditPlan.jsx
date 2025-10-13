@@ -13,12 +13,12 @@ const EditPlan = () => {
   const [keyPoints, setKeyPoints] = useState([""]);
   const [loading, setLoading] = useState(false);
   const { refreshPlan } = useDashboardContext();
+  const token = localStorage.getItem("adminToken"); // get token from localStorage
 
   const Navigate = useNavigate();
   const location = useLocation();
   const { SelectedUser: memberData } = location.state || {};
   const planId = memberData;
-
 
   useEffect(() => {
     const fetchPlan = async () => {
@@ -27,10 +27,15 @@ const EditPlan = () => {
         const res = await axios.get(
           `${
             import.meta.env.VITE_BACKEND_URL
-          }/api/plan/get-plan-by-id/${planId}`
+          }/api/plan/get-plan-by-id/${planId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         if (res.data) {
-          const plan = res.data;
+          const plan = res.data.data;
           setPrice(plan.price || "");
           setDuration(plan.duration || "1 Month");
           setType(plan.type || "");
@@ -82,7 +87,12 @@ const EditPlan = () => {
           duration,
           type,
           keyPoints,
-        }
+        },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
       );
 
       if (res.data) {

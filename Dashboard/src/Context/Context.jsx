@@ -6,6 +6,8 @@ import orderNotification from "../assets/notification_tone.mp3";
 
 const Context = createContext();
 
+const token = localStorage.getItem("adminToken"); // get token from localStorage
+
 export const ContextProvider = ({ children }) => {
   const [TotalMember, setTotalMember] = useState();
   const [TotalSales, setTotalSales] = useState();
@@ -110,19 +112,32 @@ export const ContextProvider = ({ children }) => {
     try {
       const res = await axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/api/member/update/${id}`,
-        data
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+            "Content-Type": "application/json",
+          },
+        }
       );
+
       updateMemberInContext(res.data); // <--- update context here
       return res.data;
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
   const deleteMember = async (id) => {
     try {
       await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/member/delete/${id}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/member/delete/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+            "Content-Type": "application/json",
+          },
+        }
       );
       deleteMemberFromContext(id); // <--- update context here
     } catch (err) {
@@ -134,7 +149,12 @@ export const ContextProvider = ({ children }) => {
   const monthlySalesGraph = async () => {
     try {
       const data = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/dashboard/sales-graph`
+        `${import.meta.env.VITE_BACKEND_URL}/api/dashboard/sales-graph`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+          },
+        }
       );
       setMonthlyDataForSaleGraph(data.data.monthlyData);
     } catch (error) {
@@ -146,7 +166,12 @@ export const ContextProvider = ({ children }) => {
   const fetchTotalSales = async () => {
     try {
       const data = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/dashboard/total-sales`
+        `${import.meta.env.VITE_BACKEND_URL}/api/dashboard/total-sales`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+          },
+        }
       );
       setTotalSales(data.data.totalSales);
 
@@ -162,7 +187,12 @@ export const ContextProvider = ({ children }) => {
       const data = await axios.get(
         `${
           import.meta.env.VITE_BACKEND_URL
-        }/api/dashboard/getTotalExpiringPlans`
+        }/api/dashboard/getTotalExpiringPlans`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+          },
+        }
       );
       setExpringIn7Days(data.data.totalExpiring);
       setExpireIn7DaysDetails(data.data.members);
@@ -175,10 +205,15 @@ export const ContextProvider = ({ children }) => {
   const fetchTotalMember = async () => {
     try {
       const data = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/dashboard/all-members`
+        `${import.meta.env.VITE_BACKEND_URL}/api/dashboard/all-members`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+          },
+        }
       );
-      setTotalMember(data.data.data.membersCount);
 
+      setTotalMember(data.data.data.membersCount);
       setMemberInfo(data.data.data);
     } catch (error) {
       console.log(error);
@@ -189,10 +224,15 @@ export const ContextProvider = ({ children }) => {
   const fetchAllExpence = async () => {
     try {
       const data = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/expense/getAllExpense`
+        `${import.meta.env.VITE_BACKEND_URL}/api/expense/getAllExpense`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
-      setGetAllExpance(data.data.data.AllExpense);
+      setGetAllExpance(data.data.data.allExpenses);
     } catch (error) {
       console.log(error);
     }
@@ -202,7 +242,12 @@ export const ContextProvider = ({ children }) => {
   const fetchTotalExpence = async () => {
     try {
       const data = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/dashboard/getTotalExpense`
+        `${import.meta.env.VITE_BACKEND_URL}/api/dashboard/getTotalExpense `,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       setTotalExpence(data.data.totalExpense);
@@ -217,7 +262,12 @@ export const ContextProvider = ({ children }) => {
       const data = await axios.get(
         `${
           import.meta.env.VITE_BACKEND_URL
-        }/api/dashboard/on-board-onlast-seven-days`
+        }/api/dashboard/on-board-onlast-seven-days`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+          },
+        }
       );
       setOnboaringOnLast7Days(data.data.data);
     } catch (error) {
@@ -230,7 +280,12 @@ export const ContextProvider = ({ children }) => {
       const data = await axios.get(
         `${
           import.meta.env.VITE_BACKEND_URL
-        }/api/expense/get-monthlywise-expence`
+        }/api/expense/get-monthlywise-expence`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+          },
+        }
       );
 
       setMontlyWiseEXpance(data.data.data);
@@ -244,7 +299,12 @@ export const ContextProvider = ({ children }) => {
       const data = await axios.get(
         `${
           import.meta.env.VITE_BACKEND_URL
-        }/api/dashboard/total-sales-with-discription`
+        }/api/dashboard/total-sales-with-discription`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+          },
+        }
       );
 
       setTotalSalesWithDiscription(data.data.salesData);
@@ -256,10 +316,15 @@ export const ContextProvider = ({ children }) => {
   const totalPlan = async () => {
     try {
       const data = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/plan/all`
+        `${import.meta.env.VITE_BACKEND_URL}/api/plan/all`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+          },
+        }
       );
 
-      setTotalPlan(data.data);
+      setTotalPlan(data.data.data.plans);
     } catch (error) {
       console.log(error);
     }
@@ -268,7 +333,12 @@ export const ContextProvider = ({ children }) => {
   const recentPlan = async () => {
     try {
       const data = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/plan/top-plan`
+        `${import.meta.env.VITE_BACKEND_URL}/api/plan/top-plan`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+          },
+        }
       );
 
       setRecentPlan(data.data.data);
@@ -280,7 +350,12 @@ export const ContextProvider = ({ children }) => {
   const totalPlanForGraph = async () => {
     try {
       const data = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/plan/getallplanforplangraph`
+        `${import.meta.env.VITE_BACKEND_URL}/api/plan/getallplanforplangraph`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+          },
+        }
       );
 
       setTotalPlanForGraph(data.data.data);
@@ -378,10 +453,16 @@ export const ContextProvider = ({ children }) => {
   const fatchAllPlan = async () => {
     try {
       const data = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/plan/all`
+        `${import.meta.env.VITE_BACKEND_URL}/api/plan/all`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
-      setgetAllPlan(data.data);
+   console.log(data.data.data.plans)
+      setgetAllPlan(data.data.data.plans);
     } catch (error) {
       console.log(error);
     }

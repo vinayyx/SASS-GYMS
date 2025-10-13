@@ -11,14 +11,14 @@ function EditExpense() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const Navigate = useNavigate();
-  const {refreshTotalExpense} = useDashboardContext()
-
+  const { refreshTotalExpense } = useDashboardContext();
+  const token = localStorage.getItem("adminToken"); // get token from localStorage
 
   const [expense, setExpense] = useState(
     selectedExpense || { name: "", amount: "", description: "" }
   );
 
-  console.log(expense)
+  console.log(expense);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,9 +33,16 @@ function EditExpense() {
     try {
       // Dummy update API call
       const { data } = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/expense/updateExpense/${expense._id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/expense/updateExpense/${
+          expense._id
+        }`,
         expense,
-        { headers: { "Content-Type": "application/json" } }
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       refreshTotalExpense();

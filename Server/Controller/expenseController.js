@@ -1,4 +1,5 @@
 import Expense from "../Model/expense.js";
+import mongoose from "mongoose";
 
 // Create a new expense
 export const createExpense = async (req, res) => {
@@ -265,7 +266,7 @@ export const getExpenses = async (req, res) => {
 // Get Monthly Expense Aggregated
 export const getMonthlyExpense = async (req, res) => {
   try {
-    const gymId = req.gym?.id; // Extract from token middleware
+    const gymId = req.gym?.id;
 
     if (!gymId) {
       return res.status(401).json({
@@ -276,22 +277,20 @@ export const getMonthlyExpense = async (req, res) => {
 
     const monthlyData = await Expense.aggregate([
       {
-        $match: { gymId: gymId }, // Filter only expenses of this gym
+        $match: { gymId: new mongoose.Types.ObjectId(gymId) },
       },
       {
         $group: {
-          _id: { $month: "$createdAt" }, // Group by month (1–12)
+          _id: { $month: "$createdAt" },
           totalAmount: { $sum: "$amount" },
         },
       },
-      {
-        $sort: { _id: 1 },
-      },
+      { $sort: { "_id": 1 } },
     ]);
 
     const months = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+      "Jan","Feb","Mar","Apr","May","Jun",
+      "Jul","Aug","Sep","Oct","Nov","Dec",
     ];
 
     const formattedData = months.map((monthName, index) => {
@@ -306,6 +305,7 @@ export const getMonthlyExpense = async (req, res) => {
       success: true,
       data: formattedData,
     });
+
   } catch (error) {
     console.error("Error fetching monthly expense:", error);
     res.status(500).json({
