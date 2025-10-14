@@ -204,7 +204,11 @@ export const createMember = async (req, res) => {
       ...rest
     } = req.body;
 
-    if (!req.file) return res.status(400).json({ message: "Photo required" });
+    if (!req.file) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Photo is required" });
+    }
 
     // Parse paymentDetails if string
     const paymentDetails =
@@ -246,7 +250,7 @@ export const createMember = async (req, res) => {
     };
 
     // CASE: Cash payment → save request, wait for admin approval
-   /* if (method === "Cash") {
+    /* if (method === "Cash") {
       const newCashRequest = new CashRequest({
         email,
         ...rest,

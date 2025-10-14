@@ -21,6 +21,7 @@ import { sendSMS } from "./Controller/fastToSms.js"; // Did not call this functi
 import canteen from "./Routes/CanteenItemsRoutes.js";
 import order from "./Routes/orderRoutes.js";
 import cashregister from "./Routes/cashRegisterRoutes.js";
+import bodyParser from "body-parser";
 
 //GYM ROUTES
 import gym from "./Routes/gymRoutes.js";
@@ -36,6 +37,10 @@ app.use(
   })
 );
 app.use(cookieParser());
+app.use(express.json({ limit: "20mb" }));
+app.use(express.urlencoded({ limit: "20mb", extended: true }));
+app.use(bodyParser.json({ limit: "20mb" }));
+app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
 
 app.get("/", (req, res) => {
   res.send("Server Ruuning");
