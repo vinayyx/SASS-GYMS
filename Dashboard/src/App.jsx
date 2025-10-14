@@ -24,7 +24,7 @@ import TotalItems from "./OtherPages/TotalItems";
 import AddItem from "./OtherPages/AddItem";
 import EditItem from "./OtherPages/EditItem";
 import EditBlog from "./OtherPages/EditBlog";
-import AddPlan from "./OtherPages/addPlan";
+import AddPlan from "./OtherPages/AddPlan";
 import ViewAllPlan from "./OtherPages/ViewAllPlan";
 import EditPlan from "./OtherPages/EditPlan";
 import CompletedOrders from "./OtherPages/CompletedOrders";
@@ -33,6 +33,7 @@ import TotalOrders from "./OtherPages/TotalOrders";
 import AdminLogin from "./Pages/AdminLogin";
 import ProtectedRoute from "./OtherPages/ProtectedRoute";
 import Home from "./Pages/Home";
+import GymProfile from "./Pages/GymProfile";
 
 function App() {
   return (
@@ -40,7 +41,15 @@ function App() {
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<AdminLogin />} />
-        <Route path="/" element={ <ProtectedRoute> <Layout /> </ProtectedRoute> }>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              {" "}
+              <Layout />{" "}
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Dashboard />} />
           <Route path="member" element={<Member />} />
           <Route path="sales" element={<Sales />} />
@@ -74,6 +83,7 @@ function App() {
           <Route path="CompletedOrders" element={<CompletedOrders />} />
           <Route path="CancelledOrders" element={<CancelledOrders />} />
           <Route path="TotalOrders" element={<TotalOrders />} />
+          <Route path="gymProfile" element={<GymProfile />} />
         </Route>
       </Routes>
     </div>

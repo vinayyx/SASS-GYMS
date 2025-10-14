@@ -396,7 +396,7 @@ function AddMember() {
                 type="number"
                 name="amount"
                 value={planData.price || ""}
-                readOnly
+                onChange={handlePlanChange}
                 className="p-3 rounded border border-gray-300 bg-gray-100"
               />
             </div>
@@ -481,6 +481,19 @@ function AddMember() {
               <option value="">Select Method</option>
               <option value="Cash">Cash</option>
             </select>
+          </div>
+
+          {/* Email */}
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-semibold text-gray-700">Email</label>
+            <input
+              type="email"
+              name="email"
+              required
+              value={formData.email}
+              onChange={handleChange}
+              className="p-3 rounded border border-gray-300 focus:ring-2 focus:ring-blue-500"
+            />
           </div>
 
           {/* Submit Button */}

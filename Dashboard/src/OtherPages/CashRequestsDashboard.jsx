@@ -6,9 +6,30 @@ const CashRequestsDashboard = () => {
   const [renewalRequests, setRenewalRequests] = useState([]);
   const [membershipRequests, setMembershipRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [gymData, setGymData] = useState(null);
 
   const renewalRef = useRef([]);
   const membershipRef = useRef([]);
+
+  // Fetch Gym Info for verification
+  useEffect(() => {
+    const fetchGym = async () => {
+      try {
+        const token = localStorage.getItem("adminToken");
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/gym/me`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setGymData(data.gym);
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to fetch gym data");
+      }
+    };
+    fetchGym();
+  }, []);
 
   // Fetch Renewal Cash Requests
   const fetchRenewalRequests = async () => {
@@ -30,9 +51,7 @@ const CashRequestsDashboard = () => {
   // Fetch Membership Cash Requests
   const fetchMembershipRequests = async () => {
     try {
-      const res = await axios.get(
-        `http://localhost:5000/api/cashregister/all`
-      );
+      const res = await axios.get(`http://localhost:5000/api/cashregister/all`);
       const newData = res.data.data || [];
       if (JSON.stringify(newData) !== JSON.stringify(membershipRef.current)) {
         setMembershipRequests(newData);
@@ -45,18 +64,20 @@ const CashRequestsDashboard = () => {
   };
 
   useEffect(() => {
-    fetchRenewalRequests();
-    fetchMembershipRequests();
-    const interval = setInterval(() => {
+    if (gymData?.isVerified) {
       fetchRenewalRequests();
       fetchMembershipRequests();
-    }, 5000);
+      const interval = setInterval(() => {
+        fetchRenewalRequests();
+        fetchMembershipRequests();
+      }, 5000);
+      setLoading(false);
+      return () => clearInterval(interval);
+    } else {
+      setLoading(false);
+    }
+  }, [gymData]);
 
-    setLoading(false);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Handle actions for Renewal Requests
   const handleRenewalAction = async (id, type) => {
     try {
       const endpoint =
@@ -77,7 +98,6 @@ const CashRequestsDashboard = () => {
     }
   };
 
-  // Handle actions for Membership Requests
   const handleMembershipAction = async (id, type) => {
     try {
       let endpoint = "";
@@ -107,7 +127,7 @@ const CashRequestsDashboard = () => {
 
   const renderRequestCard = (req, type) => {
     const isMembership = type === "membership";
-    const planInfo = isMembership ? req.plan[0]?.Plan : req.planId; // populated Plan
+    const planInfo = isMembership ? req.plan[0]?.Plan : req.planId;
 
     return (
       <div
@@ -115,7 +135,6 @@ const CashRequestsDashboard = () => {
         className="bg-white p-4 sm:p-6 rounded-2xl shadow-md border border-gray-200 flex flex-col md:flex-row md:justify-between gap-4"
       >
         <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
-          {/* Member Info */}
           <div>
             <p className="text-gray-700">
               <span className="font-semibold">Member:</span>{" "}
@@ -132,13 +151,14 @@ const CashRequestsDashboard = () => {
                 : req.memberId?.contactNumber || req?.contact}
             </p>
           </div>
-
-          {/* Plan Info */}
           <div>
             <p className="text-gray-700">
               <span className="font-semibold">Plan:</span>{" "}
               {planInfo?.type || "N/A"} ({planInfo?.duration || "N/A"}) ₹
               {isMembership ? req.plan[0]?.paidAmount : req.price}
+              {planInfo?.premiumIncluded && (
+                <span className="text-yellow-500 font-semibold"> - Premium Included</span>
+              )}
             </p>
             <p className="text-gray-700">
               <span className="font-semibold">Status:</span>{" "}
@@ -162,8 +182,6 @@ const CashRequestsDashboard = () => {
             </p>
           </div>
         </div>
-
-        {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-2 mt-3 md:mt-0">
           <button
             onClick={() =>
@@ -210,19 +228,38 @@ const CashRequestsDashboard = () => {
     );
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[80vh] text-gray-600 text-lg">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!gymData?.isVerified) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[80vh] bg-white shadow-md rounded-2xl p-8 text-center">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          Access Restricted
+        </h2>
+        <p className="text-gray-600 max-w-md">
+          The Cash Requests feature is available only in the Premium Plan.
+          Upgrade your account to access these requests.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="h-[80vh] p-4 md:p-6 overflow-y-auto">
       <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
         Cash Requests Dashboard
       </h2>
 
-      {loading ? (
-        <p className="text-center text-gray-500">Loading requests...</p>
-      ) : renewalRequests.length === 0 && membershipRequests.length === 0 ? (
+      {renewalRequests.length === 0 && membershipRequests.length === 0 ? (
         <p className="text-center text-gray-500">No requests found</p>
       ) : (
         <div className="flex flex-col gap-6">
-          {/* Membership Requests */}
           {membershipRequests.length > 0 && (
             <>
               <h3 className="text-xl font-semibold text-gray-700">
@@ -231,8 +268,6 @@ const CashRequestsDashboard = () => {
               {membershipRequests.map((req) => renderRequestCard(req, "membership"))}
             </>
           )}
-
-          {/* Renewal Requests */}
           {renewalRequests.length > 0 && (
             <>
               <h3 className="text-xl font-semibold text-gray-700">

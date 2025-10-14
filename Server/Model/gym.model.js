@@ -17,6 +17,7 @@ const gymSchema = new mongoose.Schema(
     landmark: { type: String, trim: true },
     establishedDate: { type: Date, default: Date.now },
     isVerified: { type: Boolean, default: false },
+   
   },
   { timestamps: true }
 );
