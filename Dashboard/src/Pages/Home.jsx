@@ -4,6 +4,7 @@ import Features from '../Components/Home/Features'
 import Pricing from '../Components/Home/Pricing'
 import Footer from '../Components/Home/Footer'
 import HowToUseFAQ from '../Components/Home/HowToUseFAQ'
+import ContactUs from '../Components/Home/ContactUs'
 
 function Home() {
   return (
@@ -12,6 +13,7 @@ function Home() {
         <Hero/>
         <Features/>
         <Pricing/>
+        <ContactUs/>
         <Footer/>
 
       

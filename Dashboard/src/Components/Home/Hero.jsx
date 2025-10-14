@@ -6,7 +6,7 @@ const Hero = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="font-poppins text-white bg-black min-h-screen">
+    <div  className="font-poppins text-white bg-black min-h-screen">
       {/* Navbar */}
       <nav className="fixed top-0 z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-32 backdrop-blur bg-black/50">
         <a href="#" className="text-2xl font-bold text-purple-500">
@@ -16,13 +16,13 @@ const Hero = () => {
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8 text-white text-sm">
           <a href="#features" className="hover:text-purple-400 transition">
-            Features
+            Home
           </a>
           <a href="#plans" className="hover:text-purple-400 transition">
-            Plans
+            Feature
           </a>
           <a href="#analytics" className="hover:text-purple-400 transition">
-            Analytics
+            Plan
           </a>
           <a href="#contact" className="hover:text-purple-400 transition">
             Contact
@@ -65,7 +65,7 @@ const Hero = () => {
         }`}
       >
         <a href="#features" onClick={() => setMenuOpen(false)}>
-          Features
+          Home
         </a>
         <a href="#plans" onClick={() => setMenuOpen(false)}>
           Plans

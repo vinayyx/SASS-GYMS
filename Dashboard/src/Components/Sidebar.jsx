@@ -70,7 +70,7 @@ function Sidebar({ sidebar, setSidebar }) {
       {/* Bottom Section (Profile / Logout) */}
       <div className='border-t border-zinc-200 w-full absolute bottom-0 flex flex-col items-center py-4 gap-2'>
         <NavLink 
-          to="https://fit-and-more.vercel.app/"
+          to="/gymProfile"
           className='flex items-center gap-2 text-zinc-900 hover:bg-zinc-100 p-2 rounded-md w-11/12 justify-center'
         >
           <Users className='h-5 w-5' />
