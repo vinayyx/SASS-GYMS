@@ -4,49 +4,44 @@ import { useNavigate } from "react-router-dom";
 
 function MemberDetails() {
   const { MemberInfo } = useDashboardContext();
-
-  console.log(MemberInfo)
-
   const Navigate = useNavigate();
-
   const [SelectedUser, setSelectedUser] = useState();
 
   const handleClick = (member) => {
-    console.log(member)
-    setSelectedUser(member); // optional if you just want ID
+    setSelectedUser(member);
     Navigate("/api/viewmemberdetails", { state: { SelectedUser: member } });
   };
 
- 
-
   return (
-    <div className="py-6  md:p-6 ">
+    <div className="py-6 px-4 md:px-6 lg:px-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Members Details</h2>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
+          Members Details
+        </h2>
         <button
-        onClick={()=> Navigate("/api/addmember")}
-         className="mt-3 sm:mt-0 bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition">
+          onClick={() => Navigate("/api/addmember")}
+          className="bg-blue-600 text-white px-4 sm:px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition w-full sm:w-auto text-center"
+        >
           + Add Member
         </button>
       </div>
 
       {/* Members Table */}
-      <div className="overflow-x-auto bg-white rounded-2xl shadow-lg">
+      <div className="overflow-x-auto md:h-[70vh] h-[63vh] bg-white rounded-2xl shadow-lg">
         <table className="min-w-full text-sm text-gray-700">
           <thead className="bg-gray-100 text-gray-600 text-left">
             <tr>
-              <th className="px-6 py-3">Photo</th>
-              <th className="px-6 py-3">Full Name</th>
-              <th className="px-6 py-3">Admission Date</th>
-              <th className="px-6 py-3">Expire Date</th>
-              <th className="px-6 py-3 text-center">Action</th>
+              <th className="px-4 sm:px-6 py-3">Photo</th>
+              <th className="px-4 sm:px-6 py-3">Full Name</th>
+              <th className="px-4 sm:px-6 py-3">Admission Date</th>
+              <th className="px-4 sm:px-6 py-3">Expire Date</th>
+              <th className="px-4 sm:px-6 py-3 text-center">Action</th>
             </tr>
           </thead>
           <tbody>
             {MemberInfo?.members?.length > 0 ? (
               MemberInfo.members.map((member) => {
-                // Plan ka last expire date nikalna
                 const lastExpireDate =
                   member.plan && member.plan.length > 0
                     ? new Date(
@@ -59,26 +54,26 @@ function MemberDetails() {
                     key={member._id}
                     className="border-t hover:bg-gray-50 transition"
                   >
-                    <td className="px-6 py-4">
+                    <td className="px-4 sm:px-6 py-4">
                       <img
-                        src={
-                          member.livePhoto || "https://via.placeholder.com/50"
-                        }
+                        src={member.livePhoto || "https://via.placeholder.com/50"}
                         alt={member.fullName}
-                        className="w-12 h-12 rounded-full border shadow-sm object-cover"
+                        className="w-10 sm:w-12 h-10 sm:h-12 rounded-full border shadow-sm object-cover"
                       />
                     </td>
-                    <td className="px-6 py-4 font-medium">{member.fullName}</td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 sm:px-6 py-4 font-medium break-words max-w-[120px] sm:max-w-none">
+                      {member.fullName}
+                    </td>
+                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                       {new Date(member.admissionDate).toLocaleDateString()}
                     </td>
-                    <td className="px-6 py-4">{lastExpireDate}</td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                      {lastExpireDate}
+                    </td>
+                    <td className="px-4 sm:px-6 py-4 text-center">
                       <button
-                        onClick={() => {
-                          handleClick(member);
-                        }}
-                        className="bg-green-600 text-white px-4 py-1.5 rounded-lg shadow hover:bg-green-700 transition"
+                        onClick={() => handleClick(member)}
+                        className="bg-green-600 text-white px-3 sm:px-4 py-1.5 rounded-lg shadow hover:bg-green-700 transition text-sm sm:text-base"
                       >
                         View Profile
                       </button>
