@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Spinner from "react-spinner";
 
 function AddMember() {
   const token = localStorage.getItem("adminToken"); // get token from localStorage
+
+  const [Loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -86,7 +89,7 @@ function AddMember() {
         }`,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // send token in Authorization header
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -115,6 +118,7 @@ function AddMember() {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const data = new FormData();
 
@@ -141,12 +145,33 @@ function AddMember() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data", // this is enough
+            "Content-Type": "multipart/form-data",
           },
         }
       );
 
       if (res.data.success) toast.success("Member created!");
+
+      setFormData({
+        fullName: "",
+        fatherName: "",
+        city: "",
+        address: "",
+        contactNumber: "",
+        alternativeNumber: "",
+        email: "",
+        aadhaarNumber: "",
+        dateOfBirth: "",
+        gender: "",
+        admissionDate: new Date().toISOString().split("T")[0],
+        occupation: "",
+        medicalHistory: "",
+        bloodGroup: "",
+        referral: "",
+        livePhoto: null,
+      });
+
+      setLoading(false);
     } catch (err) {
       console.error("Error:", err.response?.data || err.message);
       toast.error("Error creating member");
@@ -298,9 +323,27 @@ function AddMember() {
               type="number"
               name="aadhaarNumber"
               value={formData.aadhaarNumber}
-              onChange={handleChange}
+              onChange={(e) => {
+                const value = e.target.value;
+                // Only allow up to 12 digits
+                if (value.length <= 12) {
+                  handleChange(e);
+                }
+              }}
+              onBlur={(e) => {
+                if (e.target.value.length !== 12) {
+                  toast("Aadhaar number must be exactly 12 digits.");
+                }
+              }}
               className="p-3 rounded border border-gray-300 focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter 12-digit Aadhaar number"
             />
+            {formData.aadhaarNumber.length > 0 &&
+              formData.aadhaarNumber.length !== 12 && (
+                <p className="text-red-500 text-sm">
+                  Aadhaar number must be 12 digits only
+                </p>
+              )}
           </div>
 
           {/* Date of Birth */}
@@ -500,9 +543,38 @@ function AddMember() {
           <div className="sm:col-span-2">
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow transition"
+              disabled={Loading}
+              className={`w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow transition duration-200 ${
+                Loading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
             >
-              Pay & Submit
+              {Loading ? (
+                <>
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                    ></path>
+                  </svg>
+                  <span>Creating...</span>
+                </>
+              ) : (
+                "Create Member"
+              )}
             </button>
           </div>
         </form>
