@@ -5,7 +5,6 @@ import cors from "cors";
 import { connection } from "./Config/db.js";
 import cookieParser from "cookie-parser";
 
-
 import payment from "./Routes/PaymentRoutes/paymentRoutes.js";
 import plan from "./Routes/planRoutes.js";
 import member from "./Routes/memberRoutes.js";
@@ -24,7 +23,7 @@ import order from "./Routes/orderRoutes.js";
 import cashregister from "./Routes/cashRegisterRoutes.js";
 
 //GYM ROUTES
-import  gym  from "./Routes/gymRoutes.js";
+import gym from "./Routes/gymRoutes.js";
 
 dotenv.config();
 connection();
@@ -36,8 +35,11 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
-app.use(cookieParser()); 
+app.use(cookieParser());
 
+app.get("/", (req, res) => {
+  res.send("Server Ruuning");
+});
 
 app.use("/api", payment);
 app.use("/api/plan", plan);
@@ -53,10 +55,8 @@ app.use("/api/canteen", canteen);
 app.use("/api/order", order);
 app.use("/api/cashregister", cashregister);
 
-
-
 //MOUNT GYM ROUTES
-app.use("/api/gym", gym)
+app.use("/api/gym", gym);
 
 cron.schedule(
   "0 9 * * *",
