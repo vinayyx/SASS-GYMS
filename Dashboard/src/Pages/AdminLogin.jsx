@@ -51,7 +51,7 @@ export default function AdminLogin() {
         toast.success("Login successful!");
 
         // Redirect and refresh dashboard
-        navigate("/");
+        navigate("/api");
         setTimeout(() => {
           window.location.reload();
         }, 300);
@@ -87,7 +87,7 @@ export default function AdminLogin() {
       <div className="w-full max-w-lg p-10 bg-gray-900 rounded-xl shadow-2xl text-white relative">
         {/* Back Button */}
         <button
-          onClick={() => navigate("/home")}
+          onClick={() => navigate("/")}
           className="absolute top-4 left-4 text-gray-300 hover:text-white text-sm flex items-center gap-1"
         >
           <span className="text-lg">←</span> Back

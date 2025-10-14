@@ -89,7 +89,7 @@ function Blog() {
           </h1>
         </div>
         <button
-          onClick={() => Navigate("/addblog")}
+          onClick={() => Navigate("/api/addblog")}
           className="mt-4 sm:mt-0 px-5 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 shadow-md transition-all"
         >
           <Plus size={20} /> Add Blog

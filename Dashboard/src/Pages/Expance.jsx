@@ -36,7 +36,7 @@ function Expance() {
           </div>
         </div>
         <button
-          onClick={() => Navigate("/addexpance")}
+          onClick={() => Navigate("/api/addexpance")}
           className="mt-4 sm:mt-0 px-5 py-2 rounded-xl bg-red-500 hover:bg-red-600 text-white flex items-center gap-2 shadow-md"
         >
           <Plus size={20} /> Add Expense
@@ -111,7 +111,7 @@ function Expance() {
       {/* View All Expenses Button */}
       <div className="flex justify-center">
         <button
-        onClick={()=>Navigate("/viewallexpence")}
+        onClick={()=>Navigate("/api/viewallexpence")}
          className="px-5 py-2 rounded-xl bg-red-500 hover:bg-red-600 text-white shadow-md">
           View All Expenses
         </button>

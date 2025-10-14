@@ -54,10 +54,10 @@ function Plan() {
 
         <div className="flex gap-5">
 
-           <button onClick={()=>Navigate("/addPlan")} className="mt-4 sm:mt-0 px-5 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 shadow-md">
+           <button onClick={()=>Navigate("/api/addPlan")} className="mt-4 sm:mt-0 px-5 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 shadow-md">
           <Plus size={20} /> Add Plan
         </button>
-        <button onClick={()=>Navigate("/viewAllPlan")} className="mt-4 sm:mt-0 px-5 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 shadow-md">
+        <button onClick={()=>Navigate("/api/viewAllPlan")} className="mt-4 sm:mt-0 px-5 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 shadow-md">
           <EyeIcon size={20} /> View All Plan
         </button>
 

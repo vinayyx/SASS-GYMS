@@ -15,7 +15,7 @@ function OnBoardingOnLast7days() {
   const handleClick = (member) => {
     console.log(member)
     setSelectedUser(member); // optional if you just want ID
-    Navigate("/viewmemberdetails", { state: { SelectedUser: member } });
+    Navigate("/api/viewmemberdetails", { state: { SelectedUser: member } });
   };
 
   useEffect(() => {

@@ -98,7 +98,7 @@ const EditPlan = () => {
       if (res.data) {
         toast.success("Plan updated successfully!");
         refreshPlan();
-        Navigate("/viewAllPlan");
+        Navigate("/api/viewAllPlan");
       } else {
         console.log(res);
         toast.error("Update failed");

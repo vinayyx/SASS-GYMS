@@ -24,7 +24,7 @@ function Sales() {
       {/* Top Cards */}
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-8">
         <div
-          onClick={() => Navigate("/viewallsales")}
+          onClick={() => Navigate("/api/viewallsales")}
           className="bg-white rounded-2xl shadow-lg p-6 flex items-center justify-between"
         >
           <div>
@@ -38,7 +38,7 @@ function Sales() {
           </div>
         </div>
         <div
-          onClick={() => Navigate("/viewallexpence")}
+          onClick={() => Navigate("/api/viewallexpence")}
           className="bg-white rounded-2xl shadow-lg p-6 flex items-center justify-between"
         >
           <div>

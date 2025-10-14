@@ -16,7 +16,7 @@ function ViewAllExpenses() {
 
   const handleEdit = (exp) => {
     setSelectedExpance(exp._id); 
-    Navigate("/editexpence", { state: { expense: exp } });
+    Navigate("/api/editexpence", { state: { expense: exp } });
   };
 
   const handleDelete = async (id) => {

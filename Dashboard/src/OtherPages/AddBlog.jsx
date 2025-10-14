@@ -56,7 +56,7 @@ const AddBlog = () => {
         toast.error(res.data.message || "Something went wrong!");
       }
       refreshBlog()
-      Navigate("/blog")
+      Navigate("/api/blog")
     } catch (err) {
       console.error(err);
       toast.error("Server error!");

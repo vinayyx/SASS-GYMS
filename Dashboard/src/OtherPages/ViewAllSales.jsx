@@ -28,7 +28,7 @@ function ViewAllSales() {
     const handleViewDetails = (member) => {
       console.log(member)
       setSelectedUser(member); // optional if you just want ID
-      Navigate("/viewsaledetails", { state: { SelectedUser: member } });
+      Navigate("/api/viewsaledetails", { state: { SelectedUser: member } });
     };
 
  
