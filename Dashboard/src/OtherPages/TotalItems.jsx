@@ -11,7 +11,7 @@ function TotalItems() {
 
   const handleEdit = (id) => {
     
-    navigate("/edititem", { state: { id } });
+    navigate("/api/edititem", { state: { id } });
   };
 
   const handleDelete = async (id) => {
@@ -33,7 +33,7 @@ function TotalItems() {
   };
 
   const handleAddNew = () => {
-    navigate("/additem");
+    navigate("/api/additem");
   };
 
   return (

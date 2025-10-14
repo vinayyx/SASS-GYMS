@@ -67,7 +67,7 @@ const Navigate = useNavigate();
   const handleViewDetails = (member) => {
    console.log(member)
     setSelectedUser(member); // optional if you just want ID
-    Navigate("/viewmemberdetails", { state: { SelectedUser: member } });
+    Navigate("/api/viewmemberdetails", { state: { SelectedUser: member } });
   };
 
   return (

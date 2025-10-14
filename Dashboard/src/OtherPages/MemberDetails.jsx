@@ -14,7 +14,7 @@ function MemberDetails() {
   const handleClick = (member) => {
     console.log(member)
     setSelectedUser(member); // optional if you just want ID
-    Navigate("/viewmemberdetails", { state: { SelectedUser: member } });
+    Navigate("/api/viewmemberdetails", { state: { SelectedUser: member } });
   };
 
  
@@ -25,7 +25,7 @@ function MemberDetails() {
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Members Details</h2>
         <button
-        onClick={()=> Navigate("/addmember")}
+        onClick={()=> Navigate("/api/addmember")}
          className="mt-3 sm:mt-0 bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition">
           + Add Member
         </button>

@@ -38,7 +38,7 @@ function AddExpense() {
       setMessage("Expense added successfully!");
 
       setExpense({ name: "", amount: "", description: "" });
-      Navigate("/expance");
+      Navigate("/api/expance");
       console.log("Expense response:", data);
     } catch (err) {
       console.error(err);

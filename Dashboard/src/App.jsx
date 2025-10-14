@@ -39,10 +39,10 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<AdminLogin />} />
         <Route
-          path="/"
+          path="/api"
           element={
             <ProtectedRoute>
               {" "}
@@ -51,39 +51,39 @@ function App() {
           }
         >
           <Route index element={<Dashboard />} />
-          <Route path="member" element={<Member />} />
-          <Route path="sales" element={<Sales />} />
-          <Route path="plan" element={<Plan />} />
-          <Route path="expance" element={<Expance />} />
-          <Route path="blog" element={<Blog />} />
-          <Route path="canteen" element={<Canteen />} />
+          <Route path="/api/member" element={<Member />} />
+          <Route path="/api/sales" element={<Sales />} />
+          <Route path="/api/plan" element={<Plan />} />
+          <Route path="/api/expance" element={<Expance />} />
+          <Route path="/api/blog" element={<Blog />} />
+          <Route path="/api/canteen" element={<Canteen />} />
 
-          <Route path="memberdetails" element={<MemberDetails />} />
-          <Route path="last7days" element={<OnBoardingOnLast7days />} />
-          <Route path="addexpance" element={<AddExpense />} />
-          <Route path="viewallexpence" element={<ViewAllExpenses />} />
-          <Route path="editexpence" element={<EditExpense />} />
-          <Route path="viewallsales" element={<ViewAllSales />} />
+          <Route path="/api/memberdetails" element={<MemberDetails />} />
+          <Route path="/api/last7days" element={<OnBoardingOnLast7days />} />
+          <Route path="/api/addexpance" element={<AddExpense />} />
+          <Route path="/api/viewallexpence" element={<ViewAllExpenses />} />
+          <Route path="/api/editexpence" element={<EditExpense />} />
+          <Route path="/api/viewallsales" element={<ViewAllSales />} />
           <Route
-            path="viewexpireinsevendays"
+            path="/api/viewexpireinsevendays"
             element={<ExpireIn7DaysDetails />}
           />
-          <Route path="viewmemberdetails" element={<ViewDetailsMember />} />
-          <Route path="addmember" element={<AddMember />} />
-          <Route path="viewsaledetails" element={<ViewDetailsSale />} />
-          <Route path="addblog" element={<AddBlog />} />
-          <Route path="cashrequest" element={<CashRequestsDashboard />} />
-          <Route path="totalitem" element={<TotalItems />} />
-          <Route path="additem" element={<AddItem />} />
-          <Route path="edititem" element={<EditItem />} />
-          <Route path="editblog" element={<EditBlog />} />
-          <Route path="addPlan" element={<AddPlan />} />
-          <Route path="viewAllPlan" element={<ViewAllPlan />} />
-          <Route path="editPlan" element={<EditPlan />} />
-          <Route path="CompletedOrders" element={<CompletedOrders />} />
-          <Route path="CancelledOrders" element={<CancelledOrders />} />
-          <Route path="TotalOrders" element={<TotalOrders />} />
-          <Route path="gymProfile" element={<GymProfile />} />
+          <Route path="/api/viewmemberdetails" element={<ViewDetailsMember />} />
+          <Route path="/api/addmember" element={<AddMember />} />
+          <Route path="/api/viewsaledetails" element={<ViewDetailsSale />} />
+          <Route path="/api/addblog" element={<AddBlog />} />
+          <Route path="/api/cashrequest" element={<CashRequestsDashboard />} />
+          <Route path="/api/totalitem" element={<TotalItems />} />
+          <Route path="/api/additem" element={<AddItem />} />
+          <Route path="/api/edititem" element={<EditItem />} />
+          <Route path="/api/editblog" element={<EditBlog />} />
+          <Route path="/api/addPlan" element={<AddPlan />} />
+          <Route path="/api/viewAllPlan" element={<ViewAllPlan />} />
+          <Route path="/api/editPlan" element={<EditPlan />} />
+          <Route path="/api/CompletedOrders" element={<CompletedOrders />} />
+          <Route path="/api/CancelledOrders" element={<CancelledOrders />} />
+          <Route path="/api/TotalOrders" element={<TotalOrders />} />
+          <Route path="/api/gymProfile" element={<GymProfile />} />
         </Route>
       </Routes>
     </div>

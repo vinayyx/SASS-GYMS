@@ -94,14 +94,14 @@ function Member() {
       value: TotalMember,
       color: "blue",
       icon: <Plus size={28} className="text-blue-500" />,
-      link: "/memberdetails",
+      link: "/api/memberdetails",
     },
     {
       label: "Onboarded (Last 7 Days)",
       value: OnboaringOnLast7Days.length,
       color: "yellow",
       icon: <Users size={28} className="text-yellow-500" />,
-      link: "/last7days",
+      link: "/api/last7days",
     },
   ];
 

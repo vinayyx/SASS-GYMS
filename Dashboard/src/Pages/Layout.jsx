@@ -10,12 +10,12 @@ function Layout() {
   return (
     <div className="flex flex-col min-h-screen items-start relative justify-start">
       <nav className="font-bold h-[10vh]  shadow-md text-3xl italic text-zinc-700 relative w-full z-50 px-[5vw] py-5 cursor-pointer flex justify-between items-center">
-        <h1 className="text-2xl" onClick={() => navigate("/")}>
+        <h1 className="text-2xl" onClick={() => navigate("/api")}>
           {" "}
           Xyntech
         </h1>
         <BanknoteArrowDown
-          onClick={() => navigate("/cashrequest")}
+          onClick={() => navigate("/api/cashrequest")}
           className="h-6 w-6"
         />
 

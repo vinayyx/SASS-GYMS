@@ -76,7 +76,7 @@ const ViewDetailsMember = () => {
     try {
       await deleteMember(members._id); // call context delete
       toast.success("Member deleted successfully!");
-      Navigate("/memberdetails");
+      Navigate("/api/memberdetails");
     } catch (err) {
       toast.error("Failed to delete member.");
     }

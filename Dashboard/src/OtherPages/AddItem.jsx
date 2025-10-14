@@ -71,7 +71,7 @@ function AddItem() {
         toast.error(res.data.message || "Failed to add item");
       }
     
-      Navigate("/totalitem")
+      Navigate("/api/totalitem")
 
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");

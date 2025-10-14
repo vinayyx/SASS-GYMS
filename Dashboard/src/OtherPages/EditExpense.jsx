@@ -48,7 +48,7 @@ function EditExpense() {
       refreshTotalExpense();
 
       setMessage("Expense updated successfully!");
-      Navigate("/expance");
+      Navigate("/api/expance");
       console.log("Updated Expense:", data);
     } catch (err) {
       console.error(err);

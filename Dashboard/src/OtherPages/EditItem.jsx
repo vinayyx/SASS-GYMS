@@ -96,7 +96,7 @@ function EditItem() {
       if (res.data.success) {
         toast.success(res.data.message);
         refreshCanteen();
-        navigate("/totalitem");
+        navigate("/api/totalitem");
       } else {
         toast.error(res.data.message || "Failed to update item");
       }

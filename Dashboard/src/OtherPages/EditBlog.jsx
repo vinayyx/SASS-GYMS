@@ -80,7 +80,7 @@ const EditBlog = () => {
       if (res.data.success) {
         toast.success("Blog updated successfully!");
         refreshBlog()
-        Navigate("/blog")
+        Navigate("/api/blog")
         
       } else {
         toast.error(res.data.message || "Something went wrong!");

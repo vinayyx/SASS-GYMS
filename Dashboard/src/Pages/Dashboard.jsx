@@ -19,11 +19,11 @@ function Dashboard() {
       label: "Total Member",
       value: TotalMember,
       color: "blue",
-      link: "/memberdetails",
+      link: "/api/memberdetails",
     },
-    { label: "Total Sale", value: TotalSales, color: "yellow", link: "/viewallsales", },
-    { label: "Expire in 7 Days", value: ExpringIn7Days, color: "green", link: "/viewexpireinsevendays" },
-    { label: "Total Expense", value: TotalExpence, color: "red", link: "/viewallexpence" },
+    { label: "Total Sale", value: TotalSales, color: "yellow", link: "/api/viewallsales", },
+    { label: "Expire in 7 Days", value: ExpringIn7Days, color: "green", link: "/api/viewexpireinsevendays" },
+    { label: "Total Expense", value: TotalExpence, color: "red", link: "/api/viewallexpence" },
   ];
 
   return (

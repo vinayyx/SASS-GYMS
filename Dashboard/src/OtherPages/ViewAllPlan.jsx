@@ -14,7 +14,7 @@ const ViewAllPlan = () => {
 
   const handleEdit = (id) => {
     console.log("Edit plan:", id);
-    Navigate("/editPlan", { state: { SelectedUser: id } });
+    Navigate("/api/editPlan", { state: { SelectedUser: id } });
   };
 
   const handleDelete = async (id) => {

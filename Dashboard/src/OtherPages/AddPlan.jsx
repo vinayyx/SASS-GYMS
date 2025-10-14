@@ -67,7 +67,7 @@ const AddPlan = () => {
         setDuration("1 Month");
         setKeyPoints([""]);
         refreshPlan();
-        Navigate("/plan");
+        Navigate("/api/plan");
       } else {
         console.log(res);
       }
