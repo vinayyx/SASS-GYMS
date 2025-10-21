@@ -34,7 +34,8 @@ export default function Footer() {
             </a>
             <p className="text-gray-400 text-sm mt-6">
               Xyntech is a modern Gym Management solution offering website and
-              app integrations, secure data management, and 24x7 support for gym owners.
+              app integrations, secure data management, and 24x7 support for gym
+              owners.
             </p>
           </div>
 
@@ -42,20 +43,33 @@ export default function Footer() {
           <div className="flex flex-col lg:items-center lg:justify-center">
             <div className="flex flex-col text-sm space-y-2.5">
               <h2 className="font-semibold mb-5 text-white">Company</h2>
-              <a className="hover:text-purple-400 transition" href="#">About us</a>
-              <a className="hover:text-purple-400 transition" href="#">
-                Careers<span className="text-xs text-black bg-purple-500 rounded-md ml-2 px-2 py-1">We’re hiring!</span>
+              <a
+                href="https://xyntech.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-purple-400 transition"
+              >
+                About us
               </a>
-              <a className="hover:text-purple-400 transition" href="#">Contact us</a>
-              <a className="hover:text-purple-400 transition" href="#">Privacy policy</a>
+              <a className="hover:text-purple-400 transition" href="/contact">
+                Contact us
+              </a>
+              <a className="hover:text-purple-400 transition" href="#">
+                Privacy policy
+              </a>
             </div>
           </div>
 
           {/* Newsletter */}
           <div>
-            <h2 className="font-semibold text-white mb-5">Subscribe to our newsletter</h2>
+            <h2 className="font-semibold text-white mb-5">
+              Subscribe to our newsletter
+            </h2>
             <div className="text-sm space-y-6 max-w-sm">
-              <p>Get the latest updates and resources from Xyntech delivered weekly.</p>
+              <p>
+                Get the latest updates and resources from Xyntech delivered
+                weekly.
+              </p>
               <div className="flex items-center justify-center gap-2 p-2 rounded-md bg-gray-800">
                 <input
                   className="focus:ring-2 ring-purple-500 outline-none w-full max-w-64 py-2 rounded px-2 bg-gray-900 text-white placeholder-gray-400"
