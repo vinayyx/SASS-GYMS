@@ -34,6 +34,11 @@ import AdminLogin from "./Pages/AdminLogin";
 import ProtectedRoute from "./OtherPages/ProtectedRoute";
 import Home from "./Pages/Home";
 import GymProfile from "./Pages/GymProfile";
+import HomeFeature from "./Pages/HomeFeature";
+import PricingPages from "./Pages/PricingPages";
+import HomeContact from "./Pages/HomeContact";
+import MailCampeign from "./Pages/MailCampeign";
+import PrivacyPolicy from "./Pages/PrivacyPolicy";
 
 function App() {
   return (
@@ -41,6 +46,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<AdminLogin />} />
+        <Route path="/feature" element={<HomeFeature />} />
+        <Route path="/pricing" element={<PricingPages />} />
+        <Route path="/contact" element={<HomeContact />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+
+
         <Route
           path="/api"
           element={
@@ -68,7 +79,10 @@ function App() {
             path="/api/viewexpireinsevendays"
             element={<ExpireIn7DaysDetails />}
           />
-          <Route path="/api/viewmemberdetails" element={<ViewDetailsMember />} />
+          <Route
+            path="/api/viewmemberdetails"
+            element={<ViewDetailsMember />}
+          />
           <Route path="/api/addmember" element={<AddMember />} />
           <Route path="/api/viewsaledetails" element={<ViewDetailsSale />} />
           <Route path="/api/addblog" element={<AddBlog />} />
@@ -84,6 +98,7 @@ function App() {
           <Route path="/api/CancelledOrders" element={<CancelledOrders />} />
           <Route path="/api/TotalOrders" element={<TotalOrders />} />
           <Route path="/api/gymProfile" element={<GymProfile />} />
+          <Route path="/api/mail" element={<MailCampeign />} />
         </Route>
       </Routes>
     </div>

@@ -22,6 +22,8 @@ import canteen from "./Routes/CanteenItemsRoutes.js";
 import order from "./Routes/orderRoutes.js";
 import cashregister from "./Routes/cashRegisterRoutes.js";
 import bodyParser from "body-parser";
+import mail from "./Routes/mailCampaignRoutes.js";
+
 
 //GYM ROUTES
 import gym from "./Routes/gymRoutes.js";
@@ -59,6 +61,8 @@ app.use("/api/attendance", attendance);
 app.use("/api/canteen", canteen);
 app.use("/api/order", order);
 app.use("/api/cashregister", cashregister);
+app.use("/api/mail", mail);
+
 
 //MOUNT GYM ROUTES
 app.use("/api/gym", gym);

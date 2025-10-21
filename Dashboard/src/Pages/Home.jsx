@@ -5,15 +5,17 @@ import Pricing from '../Components/Home/Pricing'
 import Footer from '../Components/Home/Footer'
 import HowToUseFAQ from '../Components/Home/HowToUseFAQ'
 import ContactUs from '../Components/Home/ContactUs'
+import HomeNavbar from '../Components/HomeNavbar'
+import ContactSection from '../Components/ContactSection'
 
 function Home() {
   return (
-    <div>
-
+    <div className='overflow-hidden'> 
+        <HomeNavbar/>
         <Hero/>
         <Features/>
         <Pricing/>
-        <ContactUs/>
+        <ContactSection/>
         <Footer/>
 
       
